@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Users } from "lucide-react"
+import { Link } from "react-router-dom"
 import api from "@/lib/api"
 
 interface Project {
@@ -29,7 +30,7 @@ export function ActiveProjects() {
     try {
       const { data } = await api.get("/projects/my-projects")
       const filtered = data.filter(
-        (p: Project) => p.status === "active" || p.status === "recruiting"
+        (p: Project) => p.status === "active" || p.status === "recruiting" || p.status === "open"
       )
       setActiveProjects(filtered)
     } catch (error) {
@@ -64,9 +65,10 @@ export function ActiveProjects() {
             const currentMembers = project.team_members ? project.team_members.length : 0
 
             return (
-              <div
+              <Link
                 key={project.id}
-                className="group rounded-2xl bg-card p-5 transition-transform hover:-translate-y-0.5"
+                to={`/projects/${project.id}`}
+                className="group rounded-2xl bg-card p-5 transition-transform hover:-translate-y-0.5 block"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -110,7 +112,7 @@ export function ActiveProjects() {
                     {currentMembers}/{project.team_size} members
                   </span>
                 </div>
-              </div>
+              </Link>
             )
           })}
         </div>

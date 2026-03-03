@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.api import deps
 from app.models import models
 from app.schemas import schemas
+from sqlalchemy.orm import joinedload
 
 router = APIRouter()
 
@@ -52,7 +53,10 @@ def read_received_requests(
     """
     Get requests received for my projects.
     """
-    return db.query(models.CollaborationRequest).join(models.Project).filter(
+    return db.query(models.CollaborationRequest).options(
+        joinedload(models.CollaborationRequest.project),
+        joinedload(models.CollaborationRequest.sender)
+    ).join(models.Project).filter(
         models.Project.founder_id == current_user.id
     ).all()
 
@@ -64,7 +68,7 @@ def read_sent_requests(
     """
     Get requests sent by me.
     """
-    return db.query(models.CollaborationRequest).filter(
+    return db.query(models.CollaborationRequest).options(joinedload(models.CollaborationRequest.project)).filter(
         models.CollaborationRequest.sender_id == current_user.id
     ).all()
 

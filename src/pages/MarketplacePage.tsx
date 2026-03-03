@@ -173,7 +173,7 @@ export default function MarketplacePage() {
                     </span>
                   </div>
                   <Link
-                    to={`/marketplace/${project.id}`}
+                    to={`/projects/${project.id}`}
                     className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-accent-foreground transition-colors hover:bg-accent/90"
                   >
                     <Eye className="size-3" />

@@ -20,7 +20,11 @@ def search_projects(
     """
     Search and filter projects in the marketplace.
     """
-    query = db.query(models.Project).filter(models.Project.status == models.ProjectStatus.OPEN)
+    query = db.query(models.Project).filter(
+        models.Project.status == models.ProjectStatus.OPEN,
+        models.Project.description.isnot(None),
+        models.Project.description != ""
+    )
     
     if skill:
         # Simple substring match for comma-separated skills

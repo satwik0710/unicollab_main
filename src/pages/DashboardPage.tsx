@@ -5,6 +5,7 @@ import { StatCards } from "@/components/dashboard/stat-cards"
 import { ActiveProjects } from "@/components/dashboard/active-projects"
 import { ProfileCard } from "@/components/dashboard/profile-card"
 import { RecentActivity } from "@/components/dashboard/recent-activity"
+import { PendingRequests } from "@/components/dashboard/pending-requests"
 import { Link } from "react-router-dom"
 import { Plus } from "lucide-react"
 import api from "@/lib/api"
@@ -52,6 +53,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
           <ActiveProjects />
+          <PendingRequests />
           <RecentActivity />
         </div>
         <div>

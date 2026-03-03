@@ -11,6 +11,7 @@ import ProfilePage from '@/pages/ProfilePage'
 import ProjectsPage from '@/pages/ProjectsPage'
 import TeamsPage from '@/pages/TeamsPage'
 import CreateProjectPage from '@/pages/CreateProjectPage'
+import ProjectDescriptionPage from '@/pages/ProjectDescriptionPage'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem("token")
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/marketplace" element={<ProtectedRoute><AppShell><MarketplacePage /></AppShell></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><AppShell><ProfilePage /></AppShell></ProtectedRoute>} />
           <Route path="/projects" element={<ProtectedRoute><AppShell><ProjectsPage /></AppShell></ProtectedRoute>} />
+          <Route path="/projects/:projectId" element={<ProtectedRoute><AppShell><ProjectDescriptionPage /></AppShell></ProtectedRoute>} />
           <Route path="/teams" element={<ProtectedRoute><AppShell><TeamsPage /></AppShell></ProtectedRoute>} />
           <Route path="/projects/create" element={<ProtectedRoute><AppShell><CreateProjectPage /></AppShell></ProtectedRoute>} />
         </Routes>

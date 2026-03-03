@@ -58,17 +58,37 @@ class Project(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     founder_id = Column(UUID(as_uuid=True), ForeignKey("profiles.id"))
     title = Column(Text)
+    tagline = Column(Text)
     description = Column(Text)
+    problem_statement = Column(Text)
+    goals = Column(Text)
+    expected_outcome = Column(Text)
     domain = Column(Text)
+    level = Column(Text) # Beginner / Intermediate / Advanced
+    collaboration_mode = Column(Text) # Remote / Hybrid
     required_skills = Column(ARRAY(String))
     team_size_required = Column(Integer)
+    start_date = Column(DateTime(timezone=True))
+    duration_weeks = Column(Integer)
     status = Column(Text, default=ProjectStatus.OPEN)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     founder = relationship("Profile", back_populates="founded_projects")
+    roles = relationship("ProjectRole", back_populates="project")
     requests = relationship("CollaborationRequest", back_populates="project")
     teams = relationship("Team", back_populates="project")
     analytics = relationship("Analytics", back_populates="project", uselist=False)
+
+class ProjectRole(Base):
+    __tablename__ = "project_roles"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    project_id = Column(UUID(as_uuid=True), ForeignKey("projects.id"))
+    role_name = Column(Text)
+    spots_total = Column(Integer)
+    spots_filled = Column(Integer, default=0)
+
+    project = relationship("Project", back_populates="roles")
 
 class CollaborationRequest(Base):
     __tablename__ = "collaboration_requests"
@@ -91,6 +111,7 @@ class Team(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     project_id = Column(UUID(as_uuid=True), ForeignKey("projects.id"))
     member_id = Column(UUID(as_uuid=True), ForeignKey("profiles.id"))
+    role_id = Column(UUID(as_uuid=True), ForeignKey("project_roles.id"), nullable=True) # Optional link to predefined roles
     role_in_team = Column(Text) 
     joined_at = Column(DateTime(timezone=True), server_default=func.now())
 
