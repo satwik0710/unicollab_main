@@ -251,7 +251,7 @@ export default function ProjectDescriptionPage() {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                             {/* Founder Card */}
-                            <div className="flex items-center gap-4 p-4 rounded-xl border border-border bg-secondary/30">
+                            <Link to={`/profile/${project.founder_id}`} className="flex items-center gap-4 p-4 rounded-xl border border-border bg-secondary/30 hover:bg-secondary/50 transition-colors">
                                 <Avatar className="size-12 border-2 border-primary/20">
                                     <AvatarImage src={project.founder?.avatar_url || ""} />
                                     <AvatarFallback className="bg-primary/10 text-primary">
@@ -259,16 +259,16 @@ export default function ProjectDescriptionPage() {
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1 overflow-hidden">
-                                    <h4 className="font-medium text-card-foreground truncate">
+                                    <h4 className="font-medium text-card-foreground truncate group-hover:text-primary transition-colors">
                                         {project.founder?.full_name || "Unknown"}
                                     </h4>
                                     <p className="text-xs text-primary font-medium mt-0.5">Project Founder</p>
                                 </div>
-                            </div>
+                            </Link>
 
                             {/* Joined Members */}
                             {project.teams?.map((teamMember) => (
-                                <div key={teamMember.id} className="flex items-center gap-4 p-4 rounded-xl border border-border bg-secondary/30">
+                                <Link key={teamMember.id} to={`/profile/${teamMember.member_id}`} className="flex items-center gap-4 p-4 rounded-xl border border-border bg-secondary/30 hover:bg-secondary/50 transition-colors">
                                     <Avatar className="size-12">
                                         <AvatarImage src={teamMember.member?.avatar_url || ""} />
                                         <AvatarFallback className="bg-secondary text-muted-foreground">
@@ -276,14 +276,14 @@ export default function ProjectDescriptionPage() {
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="flex-1 overflow-hidden">
-                                        <h4 className="font-medium text-card-foreground truncate">
+                                        <h4 className="font-medium text-card-foreground truncate group-hover:text-primary transition-colors">
                                             {teamMember.member?.full_name || "Unknown User"}
                                         </h4>
                                         <p className="text-xs text-muted-foreground mt-0.5 truncate">
                                             {teamMember.role_in_team || "Collaborator"}
                                         </p>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
 
                             {/* Empty Slots */}
@@ -351,8 +351,8 @@ export default function ProjectDescriptionPage() {
                             )}
 
                             <div className="w-full space-y-3 mt-6 pt-6 border-t border-border">
-                                <Button className="w-full bg-primary hover:bg-primary/90">
-                                    View Full Profile
+                                <Button asChild className="w-full bg-primary hover:bg-primary/90">
+                                    <Link to={`/profile/${project.founder_id}`}>View Full Profile</Link>
                                 </Button>
                                 <Button variant="outline" className="w-full">
                                     Message Founder
